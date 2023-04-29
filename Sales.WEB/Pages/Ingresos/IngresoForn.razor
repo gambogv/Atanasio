@@ -6,15 +6,21 @@
     <DataAnnotationsValidator/>
      <div class="mb-3">
         <label>Registro de ingreso:</label>
+       <div>
+            <label>Id boleta</label>
+            <InputText class="form-control" @bind-Value="@Ingreso.IdBoleta" />
+            <ValidationMessage For="@(() => Ingreso.IdBoleta)" />
+       </div>
         <div>
             <label>Fecha</label>
             <InputText class="form-control" @bind-Value="@Ingreso.Fecha" />
             <ValidationMessage For="@(() => Ingreso.Fecha)" />
+        </div>
+
         <div>
             <label>Porteria</label>
             <InputText class="form-control" @bind-Value="@Ingreso.porteria" />
             <ValidationMessage For="@(() => Ingreso.porteria)" />
-            </div>
         </div>
     </div>
     <button class="btn btn-primary" type="submit">Guardar Cambios</button>

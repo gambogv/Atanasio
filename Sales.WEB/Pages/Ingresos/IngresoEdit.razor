@@ -1,0 +1,62 @@
+﻿@page "/ingresos/edit/{Id:int}"
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>IngresoEdit</h3>
+
+@if (ingreso is null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <IngresoForn @ref="ingresoForn" Ingreso="ingreso" OnValidSubmit="EditAsync" ReturnAction="Return" />
+}
+
+@code {
+    private Ingreso? ingreso;
+    private IngresoForn? ingresoForn;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var responseHttp = await repository.Get<Ingreso>($"/api/ingresos/{Id}");
+        if (responseHttp.Error)
+        {
+            if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("/ingresos");
+                return;
+            }
+
+            var message = await responseHttp.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        ingreso = responseHttp.Response;
+    }
+
+    private async Task EditAsync()
+    {
+        var responseHttp = await repository.Put("/api/ingresos", ingreso);
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        ingresoForn!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo("/countries");
+    }
+
+    private void Return()
+    {
+        ingresoForn!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo("/countries");
+    }
+}

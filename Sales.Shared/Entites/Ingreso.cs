@@ -17,6 +17,7 @@ namespace Sales.Shared.Entites
         [MaxLength(100, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
 
+        public string IdBoleta{ get; set; } = null!;
 
         public string Fecha  { get; set; } = null!;
 
