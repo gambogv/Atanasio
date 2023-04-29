@@ -18,9 +18,6 @@ namespace Sales.API.Data
             modelBuilder.Entity<Ingreso>().HasIndex(c => c.Id).IsUnique();
         }
 
-        internal void Remove(object ingreso)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

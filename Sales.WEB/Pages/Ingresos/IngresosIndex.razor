@@ -3,9 +3,9 @@
 
 <h3>Entrada</h3>
 
+<a class="btn btn-primary mb-3" href="/ingresos/create">Nuevo Ingreso</a>
 
 <GenericList MyList="Ingresos">
-    
     <Body>
         <table class="table table-striped">
             <thead>
@@ -23,7 +23,8 @@
                             <button class="btn btn-danger">Borrar</button>
                         </td>
                         <td>
-                            @ingreso.Id
+                            @ingreso.Fecha
+                            @ingreso.porteria
                         </td>
                     </tr>
                 }
