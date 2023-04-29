@@ -21,19 +21,57 @@ namespace Sales.API.Controllers
 
         [HttpGet]
 
-        public async Task<ActionResult> GetAsync()
+        public async Task<IActionResult> GetAsync()
         {
             return Ok(await _context.Ingresos.ToListAsync());
         }
 
+      
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult> Get(int id)
+        {
+            var ingreso = await _context.Ingresos.FirstOrDefaultAsync(x => x.Id == id);
+            if (ingreso is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(ingreso);
+        }
+
 
         [HttpPost]
-        public async Task<ActionResult> Post(Ingreso ingreso)
+        public async Task<ActionResult> PostAsync(Ingreso ingreso)
         {
             _context.Add(ingreso);
             await _context.SaveChangesAsync();
             return Ok(ingreso);
         }
+
+
+        [HttpPut]
+        public async Task<ActionResult> PutAsync(Ingreso ingreso)
+        {
+            _context.Update(ingreso);
+            await _context.SaveChangesAsync();
+            return Ok(ingreso);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var afectedRows = await _context.Ingresos
+                .Where(x => x.Id == id)
+                .ExecuteDeleteAsync();
+
+            if (afectedRows == 0)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
 
 
     }
