@@ -1,0 +1,47 @@
+﻿@page "/ingresos"
+@inject IRepository repository
+
+<h3>Ingreso</h3>
+
+@if(Ingresos is null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>País</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ingreso in Ingresos!)
+            {
+                <tr>
+                    <td>
+                        <a class="btn btn-warning">Editar</a>
+                        <button class="btn btn-danger">Borrar</button>
+                    </td>
+                    <td>
+                        @ingreso.Id
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+@code {
+    public List<Ingreso>? Ingresos { get; set; }
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        var responseHppt = await repository.Get<List<Ingreso>>("/api/ingresos");
+        Ingresos = responseHppt.Response!;
+    }
+
+}
